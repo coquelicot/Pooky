@@ -1,4 +1,5 @@
 import yaml, os
+from utils.Logger import logger
 
 def loadConfig(fileName):
 
@@ -11,6 +12,7 @@ def loadConfig(fileName):
 try:
     config = loadConfig('config.yaml')
 except:
+    logger.warning("Can't load `config.yaml', using `defaultConfig.yaml' instead.")
     config = loadConfig('defaultConfig.yaml')
 
 if config is None:
