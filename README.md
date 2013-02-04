@@ -7,4 +7,5 @@ Dependency
 =====
 
 Python (>= 3)
+
 PyQt (>= 4.9)
