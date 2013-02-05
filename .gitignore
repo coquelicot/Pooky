@@ -1,2 +1,3 @@
 *.pyc
 pooky/environ/config.yaml
+test*.py

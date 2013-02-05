@@ -15,7 +15,7 @@
 # along with Pooky.  If not, see <http://www.gnu.org/licenses/>.
 
 import yaml, os
-from utils.Logger import logger
+from Utils import logger
 
 class Config:
 
