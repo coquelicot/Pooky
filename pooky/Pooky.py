@@ -20,6 +20,7 @@
 import sys
 from Config import config
 from PyQt4 import QtGui, QtCore
+import Widgets
 
 class Pooky(QtGui.QMainWindow):
 
@@ -35,8 +36,17 @@ class Pooky(QtGui.QMainWindow):
 
         self.statusBar() # create statusBar
         self.initMenuBar()
+        self.initWidgets()
 
         self.show()
+
+    def initWidgets(self):
+
+        mainWidget = QtGui.QWidget(self)
+        layout = QtGui.QGridLayout()
+
+        mainWidget.setLayout(layout)
+        self.setCentralWidget(mainWidget)
 
     def initMenuBar(self):
 
@@ -99,7 +109,6 @@ class Pooky(QtGui.QMainWindow):
         raise NotImplementedError('showAbout not yet implement')
 
 def main():
-
     app = QtGui.QApplication(sys.argv)
     pooky = Pooky()
     sys.exit(app.exec())
