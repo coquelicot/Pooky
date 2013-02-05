@@ -1,8 +1,24 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+# This file is part of Pooky.
+# Copyright (C) 2013 Fcrh <coquelicot1117@gmail.com>
+#
+# Pooky is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Pooky is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Pooky.  If not, see <http://www.gnu.org/licenses/>.
+
 import sys
-import environ
+from Config import config
 from PyQt4 import QtGui, QtCore
 
 class Pooky(QtGui.QMainWindow):
@@ -14,7 +30,7 @@ class Pooky(QtGui.QMainWindow):
     def initGUI(self):
 
         self.resize(640, 480)
-        self.setWindowTitle('Pooky {0}'.format(environ.version))
+        self.setWindowTitle('Pooky {0}'.format(config.version))
         QtGui.QToolTip.setFont(QtGui.QFont('SansSerif', 10))
 
         self.statusBar() # create statusBar
@@ -34,8 +50,8 @@ class Pooky(QtGui.QMainWindow):
 
     def addActionToMenu(self, name, label, tip, bind, menu):
         action = QtGui.QAction(QtGui.QIcon(name + '.png'), label, self)
-        if name in environ.config['shortCuts']:
-            action.setShortcut(environ.config['shortCuts'][name])
+        if name in config.shortCuts:
+            action.setShortcut(config.shortCuts[name])
         action.setStatusTip(tip)
         action.triggered.connect(bind)
         menu.addAction(action)
