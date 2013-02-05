@@ -41,12 +41,27 @@ class Pooky(QtGui.QMainWindow):
     def initMenuBar(self):
 
         fileMenu = self.menuBar().addMenu('&File')
-        self.addActionToMenu('New', 'New', 'New file', self.newFile, fileMenu)
-        self.addActionToMenu('Open', 'Open', 'Open file', self.openFile, fileMenu)
-        self.addActionToMenu('Save', 'Save', 'Save file', self.saveFile, fileMenu)
-        self.addActionToMenu('Close', 'Close Tab', 'Close Tab', self.closeTab, fileMenu)
+        self.newAction = self.addActionToMenu('New', 'New', 'New file', self.newFile, fileMenu)
+        self.openAction = self.addActionToMenu('Open', 'Open', 'Open file', self.openFile, fileMenu)
+        self.saveAction = self.addActionToMenu('Save', 'Save', 'Save file', self.saveFile, fileMenu)
+        self.closeAction = self.addActionToMenu('Close', 'Close Tab', 'Close tab', self.closeTab, fileMenu)
         fileMenu.addSeparator()
-        self.addActionToMenu('Exit', 'Exit', 'Exit Pooky', self.close, fileMenu)
+        self.exitAction = self.addActionToMenu('Exit', 'Exit', 'Exit Pooky', self.close, fileMenu)
+        self.saveAction.setDisabled(True)
+        self.closeAction.setDisabled(True)
+
+        editMenu = self.menuBar().addMenu('&Edit')
+        self.copyAction = self.addActionToMenu('Copy', 'Copy', 'Copy selected region', self.copy, editMenu)
+        self.pasteAction = self.addActionToMenu('Paste', 'Paste', 'Paste the copied data', self.paste, editMenu)
+        editMenu.addSeparator()
+        self.preferenceAction = self.addActionToMenu('Preference', 'Preference', 'Open the setting panel', self.showPreferencePanel, editMenu)
+        self.copyAction.setDisabled(True)
+        self.pasteAction.setDisabled(True)
+
+        toolMenu = self.menuBar().addMenu('&Tool')
+
+        helpMenu = self.menuBar().addMenu('&Help')
+        self.aboutAction = self.addActionToMenu('About', 'About Pooky', 'Show the about page of Pooky', self.showAbout, helpMenu)
 
     def addActionToMenu(self, name, label, tip, bind, menu):
         action = QtGui.QAction(QtGui.QIcon(name + '.png'), label, self)
@@ -55,6 +70,7 @@ class Pooky(QtGui.QMainWindow):
         action.setStatusTip(tip)
         action.triggered.connect(bind)
         menu.addAction(action)
+        return action
 
     # handlers
 
@@ -70,7 +86,20 @@ class Pooky(QtGui.QMainWindow):
     def closeTab(self):
         raise NotImplementedError('closeTab not yet implement')
 
+    def copy(self):
+        raise NotImplementedError('copy not yet implement')
+    
+    def paste(self):
+        raise NotImplementedError('paste not yet implement')
+
+    def showPreferencePanel(self):
+        raise NotImplementedError('showPreferencePanel not yet implement')
+
+    def showAbout(self):
+        raise NotImplementedError('showAbout not yet implement')
+
 def main():
+
     app = QtGui.QApplication(sys.argv)
     pooky = Pooky()
     sys.exit(app.exec())

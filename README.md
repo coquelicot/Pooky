@@ -4,7 +4,7 @@ Pooky
 An open source ascii graph editor release under the GPL license.
 
 Dependency
-=====
+===
 
 Python (>= 3)
 
