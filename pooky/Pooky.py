@@ -30,7 +30,7 @@ class Pooky(QtGui.QMainWindow):
 
     def initGUI(self):
 
-        self.resize(640, 480)
+        self.setGeometry(100, 100, 640, 480)
         self.setWindowTitle('Pooky {0}'.format(config.version))
         QtGui.QToolTip.setFont(QtGui.QFont('SansSerif', 10))
 
@@ -42,11 +42,21 @@ class Pooky(QtGui.QMainWindow):
 
     def initWidgets(self):
 
+        # mainFrame
         mainWidget = QtGui.QWidget(self)
         layout = QtGui.QGridLayout()
 
         mainWidget.setLayout(layout)
         self.setCentralWidget(mainWidget)
+
+        # popups
+        self.popups = dict()
+
+        preference = Widgets.Preference()
+        self.popups['preference'] = preference
+
+        about = Widgets.About()
+        self.popups['about'] = about
 
     def initMenuBar(self):
 
@@ -75,10 +85,10 @@ class Pooky(QtGui.QMainWindow):
 
     def addActionToMenu(self, name, label, tip, bind, menu):
         action = QtGui.QAction(QtGui.QIcon(name + '.png'), label, self)
-        if name in config.shortCuts:
-            action.setShortcut(config.shortCuts[name])
+        action.setShortcut(config.shortCuts.get(name, ''))
         action.setStatusTip(tip)
         action.triggered.connect(bind)
+        config.reloaded.connect(lambda: action.setShortcut(config.shortCuts.get(name, '')))
         menu.addAction(action)
         return action
 
@@ -103,10 +113,18 @@ class Pooky(QtGui.QMainWindow):
         raise NotImplementedError('paste not yet implement')
 
     def showPreferencePanel(self):
-        raise NotImplementedError('showPreferencePanel not yet implement')
+        #raise NotImplementedError('showPreferencePanel not yet implement')
+        obj = self.popups['preference']
+        obj.move(self.pos())
+        obj.show()
+        obj.activateWindow()
 
     def showAbout(self):
-        raise NotImplementedError('showAbout not yet implement')
+        #raise NotImplementedError('showAbout not yet implement')
+        obj = self.popups['about']
+        obj.move(self.pos())
+        obj.show()
+        obj.activateWindow()
 
 def main():
     app = QtGui.QApplication(sys.argv)

@@ -14,30 +14,43 @@
 # You should have received a copy of the GNU General Public License
 # along with Pooky.  If not, see <http://www.gnu.org/licenses/>.
 
+from PyQt4 import QtCore
 import yaml, os
 from Utils import logger
 
-class Config:
+class Config(QtCore.QObject):
 
     version = 0.1
     configDir = os.path.join(os.path.dirname(__file__), 'resources', 'config')
 
-    def __init__(self, configFile='config.yaml'):
-        self.load(configFile)
+    reloaded = QtCore.pyqtSignal()
 
-    def load(self, fileName):
+    def __init__(self):
+        super().__init__()
 
         try:
             config = Config.loadConfigFile('config.yaml')
         except:
-            logger.warning("Can't load `{0}', using `defaultConfig.yaml' instead.".format(fileName))
+            logger.warning("Can't load `config.yaml', using `defaultConfig.yaml' instead.")
             config = Config.loadConfigFile('defaultConfig.yaml')
+        finally:
+            self.__dict__ = config if config is not None else dict()
 
-        self.__dict__ = config if config is not None else dict()
+    def reload(self, fileName):
+        try:
+            config = Config.loadConfigFile(fileName)
+            self.__dict__ = config if config is not None else dict()
+            self.reloaded.emit()
+        except:
+            logger.warning("Can't reload from file `{0}'.".format(fileName))
+
+    def save(self, fileName):
+        filePath = os.path.join(cls.configDir, fileName)
+        with open(filePath, 'w') as fout:
+            yaml.dump(self.__dict__, fout)
 
     @classmethod
     def loadConfigFile(cls, fileName):
-
         filePath = os.path.join(cls.configDir, fileName)
         with open(filePath, 'r') as fin:
             return yaml.load(fin)
