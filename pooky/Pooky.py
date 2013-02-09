@@ -113,14 +113,12 @@ class Pooky(QtGui.QMainWindow):
         raise NotImplementedError('paste not yet implement')
 
     def showPreferencePanel(self):
-        #raise NotImplementedError('showPreferencePanel not yet implement')
         obj = self.popups['preference']
         obj.move(self.pos())
         obj.show()
         obj.activateWindow()
 
     def showAbout(self):
-        #raise NotImplementedError('showAbout not yet implement')
         obj = self.popups['about']
         obj.move(self.pos())
         obj.show()

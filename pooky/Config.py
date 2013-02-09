@@ -45,7 +45,7 @@ class Config(QtCore.QObject):
             logger.warning("Can't reload from file `{0}'.".format(fileName))
 
     def save(self, fileName):
-        filePath = os.path.join(cls.configDir, fileName)
+        filePath = os.path.join(self.configDir, fileName)
         with open(filePath, 'w') as fout:
             yaml.dump(self.__dict__, fout)
 
