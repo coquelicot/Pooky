@@ -23,10 +23,10 @@ class SingletonWidget(QtGui.QWidget):
     def __init__(self, *args):
         super().__init__(*args)
 
-        if self.__instance is not None:
+        if self.__class__.__instance is not None:
             raise RuntimeError("Singleton check failed.")
         else:
-            self.__instance = self
+            self.__class__.__instance = self
 
 class Palette(SingletonWidget):
 
