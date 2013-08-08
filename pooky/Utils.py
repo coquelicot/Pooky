@@ -90,5 +90,7 @@ def RawToBBS(datas):
 
         result += chr(data[0])
 
+    # close color tag
+    result += '\033[m'
     return result
 
